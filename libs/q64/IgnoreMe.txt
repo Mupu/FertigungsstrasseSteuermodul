@@ -1,0 +1,5 @@
+Bitte beachten
+1. Qlib64.dll und quancom.jar werden ins Projektverzeichnis kopiert. 
+2. quancom.jar muss dem "build path" hinzugefügt werden.
+
+

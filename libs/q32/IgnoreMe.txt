@@ -1,0 +1,8 @@
+Einbinden der Erweiterungen zur Prozessautomatisierung
+1. qutil.dll wird ins Verzeichnis <jdk>\jre\bin kopiert. 
+2. quancom.jar wird ins Verzeichnis <jdk>\jre\lib\ext kopiert. 
+Alternative
+1. qutil.dll und quancom.jar werden ins Projektverzeichnis kopiert. 
+2. quancom.jar muss dem "build path" hinzugefügt werden.
+
+
