@@ -1,5 +1,6 @@
 package me.mupu.fertigungsstrasseSteuermodul.steuereinheiten;
 
+import me.mupu.enums.sensoren.ESensorstatus;
 import me.mupu.interfaces.maschinen.IMBohrmaschine;
 
 public class SteuereinheitBohrmaschine extends Thread {

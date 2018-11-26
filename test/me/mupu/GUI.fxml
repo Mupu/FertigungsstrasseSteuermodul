@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -26,16 +27,28 @@
                               <Button fx:id="YRueck" layoutX="122.0" layoutY="71.0" mnemonicParsing="false" text="YRueck" />
                               <Button fx:id="ZHoch" layoutX="35.0" layoutY="115.0" mnemonicParsing="false" text="ZHoch" />
                               <Button fx:id="ZRunter" layoutX="121.0" layoutY="115.0" mnemonicParsing="false" text="ZRunter" />
-                              <Label layoutX="225.0" layoutY="31.0" text="Initiator Impulse:" />
-                              <Button fx:id="ResetX" layoutX="402.0" layoutY="27.0" mnemonicParsing="false" text="Reset" />
+                              <Label layoutX="225.0" layoutY="31.0" text="InitiatorX Impulse:" />
+                              <Button fx:id="ResetX" layoutX="470.0" layoutY="27.0" mnemonicParsing="false" text="Reset" />
                               <Label fx:id="ImpulsX" layoutX="352.0" layoutY="31.0" text="0" />
-                              <Label layoutX="225.0" layoutY="75.0" text="Initiator Impulse:" />
-                              <Button fx:id="ResetY" layoutX="402.0" layoutY="71.0" mnemonicParsing="false" text="Reset" />
+                              <Label layoutX="225.0" layoutY="75.0" text="InitiatorY Impulse:" />
+                              <Button fx:id="ResetY" layoutX="470.0" layoutY="71.0" mnemonicParsing="false" text="Reset" />
                               <Label fx:id="ImpulsY" layoutX="352.0" layoutY="75.0" text="0" />
-                              <Label layoutX="225.0" layoutY="119.0" text="Initiator Impulse:" />
-                              <Button fx:id="ResetZ" layoutX="402.0" layoutY="115.0" mnemonicParsing="false" text="Reset" />
+                              <Label layoutX="225.0" layoutY="119.0" text="InitiatorZ Impulse:" />
+                              <Button fx:id="ResetZ" layoutX="470.0" layoutY="115.0" mnemonicParsing="false" text="Reset" />
                               <Label fx:id="ImpulsZ" layoutX="352.0" layoutY="119.0" text="0" />
                               <CheckBox fx:id="Magnet" layoutX="40.0" layoutY="196.0" mnemonicParsing="false" text="Magnet" />
+                              <Button fx:id="CVIX" layoutX="382.0" layoutY="161.0" mnemonicParsing="false" text="Copy Von InitiatorX" />
+                              <Label fx:id="ProzentX" layoutX="399.0" layoutY="31.0" text="0%" />
+                              <Label fx:id="ProzentY" layoutX="399.0" layoutY="75.0" text="0%" />
+                              <Label fx:id="ProzentZ" layoutX="399.0" layoutY="119.0" text="0%" />
+                              <Button fx:id="CVIY" layoutX="382.0" layoutY="201.0" mnemonicParsing="false" text="Copy Von InitiatorY" />
+                              <Button fx:id="CVIZ" layoutX="382.0" layoutY="244.0" mnemonicParsing="false" text="Copy Von InitiatorZ" />
+                              <Label layoutX="164.0" layoutY="165.0" text="Impuls Test Result X:" />
+                              <Label layoutX="164.0" layoutY="205.0" text="Impuls Test Result Y:" />
+                              <Label layoutX="164.0" layoutY="248.0" text="Impuls Test Result Z:" />
+                              <TextField fx:id="ImpulsTestResultX" layoutX="306.0" layoutY="161.0" prefHeight="25.0" prefWidth="53.0" text="100" />
+                              <TextField fx:id="ImpulsTestResultY" layoutX="306.0" layoutY="201.0" prefHeight="25.0" prefWidth="53.0" text="100" />
+                              <TextField fx:id="ImpulsTestResultZ" layoutX="306.0" layoutY="244.0" prefHeight="25.0" prefWidth="53.0" text="100" />
                            </children>
                         </AnchorPane>
                      </content>

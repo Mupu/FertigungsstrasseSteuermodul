@@ -22,11 +22,11 @@ public class Steuermodul {
         mehrspindelmaschine = new SteuereinheitMehrspindelmaschine(FertigungsstrasseHLD.getMehrspindelmaschine());
         fraesmaschine       = new SteuereinheitFraesmaschine(FertigungsstrasseHLD.getFraesmaschine());
 
-        kran.start();
-        schieber.start();
-        bohrmaschine.start();
-        mehrspindelmaschine.start();
-        fraesmaschine.start();
+//        kran.start();
+//        schieber.start();
+//        bohrmaschine.start();
+//        mehrspindelmaschine.start();
+//        fraesmaschine.start();
     }
 
     public void stop() {

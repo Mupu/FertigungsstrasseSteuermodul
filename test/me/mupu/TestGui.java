@@ -22,6 +22,11 @@ public class TestGui extends Application {
 
         Scene scene = new Scene(root);
 
+        primaryStage.setOnCloseRequest(e -> {
+            FertigungsstrasseHLD.close();
+            System.exit(0);
+        });
+
         primaryStage.setTitle("FertigungsstrasseHDL-Test");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
