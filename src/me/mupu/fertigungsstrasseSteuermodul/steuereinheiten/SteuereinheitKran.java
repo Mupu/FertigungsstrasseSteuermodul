@@ -15,14 +15,17 @@ public class SteuereinheitKran extends Thread {
     private boolean terminate = false;
 
     private ImpulsCounterThread impulsCounterThread = null;
-    private int impulseTestResultX = 0;
-    private int impulseTestResultY = 0;
-    private int impulseTestResultZ = 0;
+    private final int SLEEP_TIME_IN_MILLIS = 1;
+
+    private int impulseTestResultX = 1806;
+    private int impulseTestResultY = 321;
+    private int impulseTestResultZ = 445;
+    private int zustand = 0;
 
     private final int maxWerkstueckAnzahl = 1;
     private int aufgeladeneWerkstuecke = 0;
 
-    private int zustand = 0;
+
     private int grundzustandRecovery = 0;
 
     private int impulseX = 0;
@@ -32,20 +35,14 @@ public class SteuereinheitKran extends Thread {
 
     private class ImpulsCounterThread extends Thread {
         private boolean terminate = false;
-        private Runnable r;
 
         private ImpulsCounterThread(Runnable r) {
-            this.r = r;
+            super(r);
         }
 
         public void terminate() {
             terminate = true;
             impulsCounterThread = null;
-        }
-
-        @Override
-        public void start() {
-            r.run();
         }
 
     }
@@ -60,12 +57,17 @@ public class SteuereinheitKran extends Thread {
         terminate = false;
 
         while (!terminate) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             if (zustand == -1) { // case -1 entscheidet was der kran zu tun hat
                 if (kran.istAusschleussbahnBelegtK() == ESensorstatus.SIGNAL) {
                     zustand = 20; // werksuteck abladen
                 } else if (kran.istEinlegestationBelegtK() == ESensorstatus.KEIN_SIGNAL
-                            && aufgeladeneWerkstuecke < maxWerkstueckAnzahl) {
+                        && aufgeladeneWerkstuecke < maxWerkstueckAnzahl) {
                     zustand = 10; // werkstueck aufladen
                 } else if (aufgeladeneWerkstuecke >= maxWerkstueckAnzahl) { // richtung ablage fahren, da das das naechste ist was gemacht werden muss
                     grundzustandRecovery = -1;
@@ -85,7 +87,9 @@ public class SteuereinheitKran extends Thread {
             werkstueckAufladen();
 
             werkstueckAbladen();
+
         }
+
     }
 
     // case 100 - 102
@@ -189,7 +193,7 @@ public class SteuereinheitKran extends Thread {
             case 1: // impulseTestResultX nach rechts
                 if (kran.getPositionXAchseK() == ESensorXAchse.RECHTS) {
                     kran.setMotorstatusXAchseK(EMotorbewegungXAchse.AUS);
-
+                    System.out.println("X: " + impulseTestResultX);
                     zustand++;
 
                 } else {
@@ -211,6 +215,7 @@ public class SteuereinheitKran extends Thread {
                     impulsCounterThread.terminate();
 
                     impulseTestResultX = impulseTestResultX / 2; // durchschnitt
+                    System.out.println("X: " + impulseTestResultX);
                     zustand++;
 
                 } else {
@@ -225,6 +230,8 @@ public class SteuereinheitKran extends Thread {
             case 3: // impulseTestResultZ nach ab
                 if (kran.getPositionZAchseK() == ESensorZAchse.UNTEN) {
                     kran.setMotorstatusZAchseK(EMotorbewegungZAchse.AUS);
+
+                    System.out.println("Z: " + impulseTestResultZ);
 
                     zustand++;
 
@@ -246,6 +253,7 @@ public class SteuereinheitKran extends Thread {
 
                     impulsCounterThread.terminate();
                     impulseTestResultZ = impulseTestResultZ / 2; // durchschnitt
+                    System.out.println("Z: " + impulseTestResultZ);
                     zustand++;
 
                 } else {
@@ -260,6 +268,7 @@ public class SteuereinheitKran extends Thread {
                 if (kran.getPositionYAchseK() == ESensorYAchse.HINTEN) {
                     kran.setMotorstatusYAchseK(EMotorbewegungYAchse.AUS);
 
+                    System.out.println("Y: " + impulseTestResultY);
                     zustand++;
 
                 } else {
@@ -280,6 +289,7 @@ public class SteuereinheitKran extends Thread {
 
                     impulsCounterThread.terminate();
                     impulseTestResultY = impulseTestResultY / 2; // durchschnitt
+                    System.out.println("Y: " + impulseTestResultY);
                     zustand = -1; // entscheidungs case
 
                 } else {
@@ -308,7 +318,7 @@ public class SteuereinheitKran extends Thread {
                     impulsCounterThread.start();
                 }
 
-                if (impulseX >= impulseTestResultX * 0.07) { // todo anpassen
+                if (impulseX >= impulseTestResultX * 0.12) { // todo anpassen
                     kran.setMotorstatusXAchseK(EMotorbewegungXAchse.AUS);
 
                     impulsCounterThread.terminate();
@@ -326,7 +336,7 @@ public class SteuereinheitKran extends Thread {
                     impulsCounterThread.start();
                 }
 
-                if (impulseY >= impulseTestResultY * 0.03) { // todo anpassen
+                if (impulseY >= impulseTestResultY * 0.14) { // todo anpassen
                     kran.setMotorstatusYAchseK(EMotorbewegungYAchse.AUS);
 
                     impulsCounterThread.terminate();
@@ -344,7 +354,7 @@ public class SteuereinheitKran extends Thread {
                     impulsCounterThread.start();
                 }
 
-                if (impulseZ >= impulseTestResultZ * 0.80) { // todo anpassen
+                if (impulseZ >= impulseTestResultZ * 0.88) { //todo anpassen
                     kran.setMotorstatusZAchseK(EMotorbewegungZAchse.AUS);
 
                     kran.setMotorstatusMagnetK(EMotorstatus.AN);
@@ -359,22 +369,26 @@ public class SteuereinheitKran extends Thread {
             /******************
              * Werkstueck abgaben
              ******************/
-            case 14: // z-achse
-                if (kran.getPositionZAchseK() == ESensorZAchse.OBEN) {
-                    kran.setMotorstatusZAchseK(EMotorbewegungZAchse.AUS);
-                    zustand++;
-                } else {
-                    kran.setMotorstatusZAchseK(EMotorbewegungZAchse.AUF);
-                }
+            case 14:
+                setRecoveryZustand();
+                zustand = 100; // grundzustand vorne links
 
                 break;
 
-            case 15: // y-achse
-                if (kran.getPositionYAchseK() == ESensorYAchse.VORNE) {
-                    kran.setMotorstatusYAchseK(EMotorbewegungYAchse.AUS);
+            case 15: // x-achse
+                if (impulsCounterThread == null) {
+                    resetImpulsCounter();
+                    setupImpulsCounterX();
+                    impulsCounterThread.start();
+                }
+
+                if (impulseX >= impulseTestResultX * 0.17) { // todo anpassen
+                    kran.setMotorstatusXAchseK(EMotorbewegungXAchse.AUS);
+
+                    impulsCounterThread.terminate();
                     zustand++;
                 } else {
-                    kran.setMotorstatusYAchseK(EMotorbewegungYAchse.VOR);
+                    kran.setMotorstatusXAchseK(EMotorbewegungXAchse.RECHTS);
                 }
 
                 break;
@@ -386,7 +400,7 @@ public class SteuereinheitKran extends Thread {
                     impulsCounterThread.start();
                 }
 
-                if (impulseY >= impulseTestResultY * 0.55) { // todo anpassen
+                if (impulseY >= impulseTestResultY * 0.63) { // todo anpassen
                     kran.setMotorstatusYAchseK(EMotorbewegungYAchse.AUS);
 
                     impulsCounterThread.terminate();
@@ -407,7 +421,7 @@ public class SteuereinheitKran extends Thread {
                         impulsCounterThread.start();
                     }
 
-                    if (impulseZ >= impulseTestResultZ * 0.65) { // todo anpassen
+                    if (impulseZ >= impulseTestResultZ * 0.66) { // todo anpassen
                         kran.setMotorstatusZAchseK(EMotorbewegungZAchse.AUS);
 
                         kran.setMotorstatusMagnetK(EMotorstatus.AUS);
@@ -444,7 +458,7 @@ public class SteuereinheitKran extends Thread {
                     impulsCounterThread.start();
                 }
 
-                if (impulseY >= impulseTestResultY * 0.10) { // todo anpassen
+                if (impulseY >= impulseTestResultY * 0.31) { // todo anpassen
                     kran.setMotorstatusYAchseK(EMotorbewegungYAchse.AUS);
 
                     impulsCounterThread.terminate();
@@ -463,7 +477,7 @@ public class SteuereinheitKran extends Thread {
                     impulsCounterThread.start();
                 }
 
-                if (impulseX >= impulseTestResultX * 0.07) { // todo anpassen
+                if (impulseX >= impulseTestResultX * 0.15) { // todo anpassen
                     kran.setMotorstatusXAchseK(EMotorbewegungXAchse.AUS);
 
                     impulsCounterThread.terminate();
@@ -483,13 +497,13 @@ public class SteuereinheitKran extends Thread {
                         impulsCounterThread.start();
                     }
 
-                    if (impulseZ >= impulseTestResultZ * 0.40) { // todo anpassen
+                    if (impulseZ >= impulseTestResultZ * 0.62) { // todo anpassen
                         kran.setMotorstatusZAchseK(EMotorbewegungZAchse.AUS);
 
-                        kran.setMotorstatusMagnetK(EMotorstatus.AUS);
+                        kran.setMotorstatusMagnetK(EMotorstatus.AN);
 
                         impulsCounterThread.terminate();
-                        zustand++; // todo wohin jetzt ?
+                        zustand++;
                     } else {
                         kran.setMotorstatusZAchseK(EMotorbewegungZAchse.AB);
                     }
@@ -520,25 +534,25 @@ public class SteuereinheitKran extends Thread {
 
                 break;
 
-            case 26: // x-achse
-                if (impulsCounterThread == null) {
-                    resetImpulsCounter();
-                    setupImpulsCounterX();
-                    impulsCounterThread.start();
-                }
+//            case 26: // x-achse
+//                if (impulsCounterThread == null) {
+//                    resetImpulsCounter();
+//                    setupImpulsCounterX();
+//                    impulsCounterThread.start();
+//                }
+//
+//                if (impulseX >= impulseTestResultX * 0.10) { // todo anpassen
+//                    kran.setMotorstatusXAchseK(EMotorbewegungXAchse.AUS);
+//
+//                    impulsCounterThread.terminate();
+//                    zustand++;
+//                } else {
+//                    kran.setMotorstatusXAchseK(EMotorbewegungXAchse.LINKS);
+//                }
+//
+//                break;
 
-                if (impulseX >= impulseTestResultX * 0.10) { // todo anpassen
-                    kran.setMotorstatusXAchseK(EMotorbewegungXAchse.AUS);
-
-                    impulsCounterThread.terminate();
-                    zustand++;
-                } else {
-                    kran.setMotorstatusXAchseK(EMotorbewegungXAchse.LINKS);
-                }
-
-                break;
-
-            case 27: // z-achse
+            case 26: // z-achse
                 if (impulsCounterThread == null) {
                     resetImpulsCounter();
                     setupImpulsCounterZ();
@@ -572,79 +586,176 @@ public class SteuereinheitKran extends Thread {
         impulseZ = 0;
     }
 
+    private void setupImpulsTestCounterX() {
+        impulsCounterThread = new ImpulsCounterThread(() -> {
+            try {
+                ESensorstatus eSS = kran.initiatorXAchseK();
+                while (!impulsCounterThread.terminate) {
+                    while (kran.initiatorXAchseK() == eSS) {
+                        try {
+                            Thread.sleep(SLEEP_TIME_IN_MILLIS);
+                        } catch (Exception e) {
+                        }
+                    }
+                    impulseTestResultX++;
+                    while (kran.initiatorXAchseK() != eSS) {
+                        try {
+                            Thread.sleep(SLEEP_TIME_IN_MILLIS);
+                        } catch (Exception e) {
+                        }
+                    }
+                    impulseTestResultX++;
+                }
+            } catch (Exception e) {
+                if (impulsCounterThread != null)
+                    impulsCounterThread.stop();
+            }
+        });
+    }
+
     private void setupImpulsTestCounterY() {
         impulsCounterThread = new ImpulsCounterThread(() -> {
-            ESensorstatus eSS = kran.initiatorYAchseK();
-            while (!impulsCounterThread.terminate) {
-                while (kran.initiatorYAchseK() == eSS) ;
-                impulseTestResultY++;
-                while (kran.initiatorYAchseK() != eSS) ;
-                impulseTestResultY++;
+            try {
+                ESensorstatus eSS = kran.initiatorYAchseK();
+                while (!impulsCounterThread.terminate) {
+                    while (kran.initiatorYAchseK() == eSS) {
+                        try {
+                            Thread.sleep(SLEEP_TIME_IN_MILLIS);
+                        } catch (Exception e) {
+                        }
+                    }
+                    impulseTestResultY++;
+                    while (kran.initiatorYAchseK() != eSS) {
+                        try {
+                            Thread.sleep(SLEEP_TIME_IN_MILLIS);
+                        } catch (Exception e) {
+                        }
+                    }
+                    impulseTestResultY++;
+                }
+            } catch (Exception e) {
+                if (impulsCounterThread != null)
+                    impulsCounterThread.stop();
             }
         });
     }
 
     private void setupImpulsTestCounterZ() {
         impulsCounterThread = new ImpulsCounterThread(() -> {
-            ESensorstatus eSS = kran.initiatorZAchseK();
-            while (!impulsCounterThread.terminate) {
-                while (kran.initiatorZAchseK() == eSS) ;
-                impulseTestResultZ++;
-                while (kran.initiatorZAchseK() != eSS) ;
-                impulseTestResultZ++;
-            }
-        });
-    }
-
-    private void setupImpulsTestCounterX() {
-        impulsCounterThread = new ImpulsCounterThread(() -> {
-            ESensorstatus eSS = kran.initiatorXAchseK();
-            while (!impulsCounterThread.terminate) {
-                while (kran.initiatorXAchseK() == eSS) ;
-                impulseTestResultX++;
-                while (kran.initiatorXAchseK() != eSS) ;
-                impulseTestResultX++;
-            }
-        });
-    }
-
-    private void setupImpulsCounterY() {
-        impulsCounterThread = new ImpulsCounterThread(() -> {
-            ESensorstatus eSS = kran.initiatorYAchseK();
-            while (!impulsCounterThread.terminate) {
-                while (kran.initiatorYAchseK() == eSS) ;
-                impulseY++;
-                while (kran.initiatorYAchseK() != eSS) ;
-                impulseY++;
-            }
-        });
-    }
-
-    private void setupImpulsCounterZ() {
-        impulsCounterThread = new ImpulsCounterThread(() -> {
-            ESensorstatus eSS = kran.initiatorZAchseK();
-            while (!impulsCounterThread.terminate) {
-                while (kran.initiatorZAchseK() == eSS) ;
-                impulseZ++;
-                while (kran.initiatorZAchseK() != eSS) ;
-                impulseZ++;
+            try {
+                ESensorstatus eSS = kran.initiatorZAchseK();
+                while (!impulsCounterThread.terminate) {
+                    while (kran.initiatorZAchseK() == eSS) {
+                        try {
+                            Thread.sleep(SLEEP_TIME_IN_MILLIS);
+                        } catch (Exception e) {
+                        }
+                    }
+                    impulseTestResultZ++;
+                    while (kran.initiatorZAchseK() != eSS) {
+                        try {
+                            Thread.sleep(SLEEP_TIME_IN_MILLIS);
+                        } catch (Exception e) {
+                        }
+                    }
+                    impulseTestResultZ++;
+                }
+            } catch (Exception e) {
+                if (impulsCounterThread != null)
+                    impulsCounterThread.stop();
             }
         });
     }
 
     private void setupImpulsCounterX() {
         impulsCounterThread = new ImpulsCounterThread(() -> {
-            ESensorstatus eSS = kran.initiatorXAchseK();
-            while (!impulsCounterThread.terminate) {
-                while (kran.initiatorXAchseK() == eSS) ;
-                impulseX++;
-                while (kran.initiatorXAchseK() != eSS) ;
-                impulseX++;
+            try {
+                ESensorstatus eSS = kran.initiatorXAchseK();
+                while (!impulsCounterThread.terminate) {
+                    while (kran.initiatorXAchseK() == eSS) {
+                        try {
+                            Thread.sleep(SLEEP_TIME_IN_MILLIS);
+                        } catch (Exception e) {
+                        }
+                    }
+                    impulseX++;
+                    while (kran.initiatorXAchseK() != eSS) {
+                        try {
+                            Thread.sleep(SLEEP_TIME_IN_MILLIS);
+                        } catch (Exception e) {
+                        }
+                    }
+                    impulseX++;
+                }
+            } catch (Exception e) {
+                if (impulsCounterThread != null)
+                    impulsCounterThread.stop();
+            }
+        });
+    }
+
+    private void setupImpulsCounterY() {
+        impulsCounterThread = new ImpulsCounterThread(() -> {
+            try {
+                ESensorstatus eSS = kran.initiatorYAchseK();
+                while (!impulsCounterThread.terminate) {
+                    while (kran.initiatorYAchseK() == eSS) {
+                        try {
+                            Thread.sleep(SLEEP_TIME_IN_MILLIS);
+                        } catch (Exception e) {
+                        }
+                    }
+                    impulseY++;
+                    while (kran.initiatorYAchseK() != eSS) {
+                        try {
+                            Thread.sleep(SLEEP_TIME_IN_MILLIS);
+                        } catch (Exception e) {
+                        }
+                    }
+                    impulseY++;
+                }
+            } catch (Exception e) {
+                if (impulsCounterThread != null)
+                    impulsCounterThread.stop();
+            }
+        });
+    }
+
+    private void setupImpulsCounterZ() {
+        impulsCounterThread = new ImpulsCounterThread(() -> {
+            try {
+                ESensorstatus eSS = kran.initiatorZAchseK();
+                while (!impulsCounterThread.terminate) {
+                    while (kran.initiatorZAchseK() == eSS) {
+                        try {
+                            Thread.sleep(SLEEP_TIME_IN_MILLIS);
+                        } catch (Exception e) {
+                        }
+                    }
+                    impulseZ++;
+                    while (kran.initiatorZAchseK() != eSS) {
+                        try {
+                            Thread.sleep(SLEEP_TIME_IN_MILLIS);
+                        } catch (Exception e) {
+                        }
+                    }
+                    impulseZ++;
+                }
+            } catch (Exception e) {
+                if (impulsCounterThread != null)
+                    impulsCounterThread.stop();
             }
         });
     }
 
     public void terminate() {
         terminate = true;
+    }
+
+    public void enableKali(boolean isEnabled) {
+        if (isEnabled)
+            zustand = 0;
+        else
+            zustand = -1;
     }
 }

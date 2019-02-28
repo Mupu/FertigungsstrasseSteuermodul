@@ -1,6 +1,5 @@
 package me.mupu.fertigungsstrasseSteuermodul.steuereinheiten;
 
-import me.mupu.FertigungsstrasseHLD;
 import me.mupu.enums.motorbewegungen.EMotorbewegungZAchse;
 import me.mupu.enums.motorbewegungen.EMotorstatus;
 import me.mupu.enums.sensoren.ESensorZAchse;
@@ -15,103 +14,109 @@ public class SteuereinheitMehrspindelmaschine extends Thread {
         this.mehrspindelmaschine = mehrspindelmaschine;
     }
 
+    private int zustand = 0;
+
     @Override
     public void run() {
         terminate = false;
         long time = 0;
         int times = 0;
         final long WAITING_TIME_SECONDS = 5;
+        boolean ready = true, spinning = false;
 
-        int zustand = 0;
         while (!terminate) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             switch (zustand) {
                 case 0:
-                    if (mehrspindelmaschine.getPositionHubM() != ESensorZAchse.OBEN) mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AUF);
-                    if (mehrspindelmaschine.istRevolverAufPositionM() == ESensorstatus.KEIN_SIGNAL) mehrspindelmaschine.setMotorstatusRevolverdrehungM(EMotorstatus.AN);
-                    mehrspindelmaschine.setMotorstatusWerkzeugAntriebM(EMotorstatus.AUS);
-                    zustand = 1;
+//                    System.out.println(0);
+                    reset();
+                    if (mehrspindelmaschine.getPositionHubM() == ESensorZAchse.OBEN && mehrspindelmaschine.istRevolverAufPositionM() == ESensorstatus.SIGNAL && mehrspindelmaschine.sollWerkstueckAnnehmenM() == ESensorstatus.SIGNAL) {
+                        zustand = 1;
+                    } else if (mehrspindelmaschine.istFraesmaschineBelegtM() == ESensorstatus.SIGNAL) {
+                        mehrspindelmaschine.setMotorstatusBandM(EMotorstatus.AUS);
+                        mehrspindelmaschine.setFlagWillWerkstueckAbgebenM(false);
+                    }
                     break;
                 case 1:
-                    if (mehrspindelmaschine.getPositionHubM() == ESensorZAchse.OBEN) {
-                        mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AUS);
+//                    System.out.println(1);
+                    mehrspindelmaschine.setMotorstatusBandM(EMotorstatus.AN);
+                    mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AUS);
+                    mehrspindelmaschine.setMotorstatusRevolverdrehungM(EMotorstatus.AUS);
+                    if (mehrspindelmaschine.initiatorM() == ESensorstatus.KEIN_SIGNAL) ready = true;
+                    if (mehrspindelmaschine.initiatorM() == ESensorstatus.SIGNAL && ready) {
+                        mehrspindelmaschine.setMotorstatusBandM(EMotorstatus.AUS);
+                        mehrspindelmaschine.setFlagWillWerkstueckAbgebenM(false);
                         zustand = 2;
-                    }
-                    if (mehrspindelmaschine.istRevolverAufPositionM() == ESensorstatus.SIGNAL) {
-                        mehrspindelmaschine.setMotorstatusRevolverdrehungM(EMotorstatus.AUS);
-                        zustand = 3;
                     }
                     break;
                 case 2:
-                    if (mehrspindelmaschine.istRevolverAufPositionM() == ESensorstatus.SIGNAL) {
-                        mehrspindelmaschine.setMotorstatusRevolverdrehungM(EMotorstatus.AUS);
-                        zustand = 4;
+//                    System.out.println(2);
+                    mehrspindelmaschine.setMotorstatusBandM(EMotorstatus.AUS);
+                    mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AB);
+                    mehrspindelmaschine.setMotorstatusRevolverdrehungM(EMotorstatus.AUS);
+                    if (mehrspindelmaschine.getPositionHubM() == ESensorZAchse.UNTEN) {
+                        mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AUS);
+                        time = System.currentTimeMillis();
+                        zustand = 3;
                     }
                     break;
                 case 3:
-                    if (mehrspindelmaschine.getPositionHubM() == ESensorZAchse.OBEN) {
-                        mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AUS);
+//                    System.out.println(3);
+                    mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AUS);
+                    mehrspindelmaschine.setMotorstatusWerkzeugAntriebM(EMotorstatus.AN);
+                    if (System.currentTimeMillis() >= time + WAITING_TIME_SECONDS * 1000) {
+                        mehrspindelmaschine.setMotorstatusWerkzeugAntriebM(EMotorstatus.AUS);
+                        mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AUF);
                         zustand = 4;
                     }
                     break;
                 case 4:
-                    if (mehrspindelmaschine.initiatorM() == ESensorstatus.SIGNAL) {
-                        mehrspindelmaschine.setFlagWillWerkstueckAbgebenM(false);
-                        mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AB);
-                        zustand = 6;
-                    } else if(mehrspindelmaschine.sollWerkstueckAnnehmenM() == ESensorstatus.SIGNAL) {
-                        mehrspindelmaschine.setMotorstatusBandM(EMotorstatus.AN);
-                        zustand = 5;
-                    }
-                    break;
-                case 5:
-                    if (mehrspindelmaschine.initiatorM() == ESensorstatus.SIGNAL) {
-                        mehrspindelmaschine.setFlagWillWerkstueckAbgebenM(false);
-                        mehrspindelmaschine.setMotorstatusBandM(EMotorstatus.AUS);
-                        mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AB);
-                        zustand = 6;
-                    }
-                    break;
-                case 6:
-                    if (mehrspindelmaschine.getPositionHubM() == ESensorZAchse.UNTEN) {
-                        mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AUS);
-                        mehrspindelmaschine.setMotorstatusWerkzeugAntriebM(EMotorstatus.AN);
-                        time = System.currentTimeMillis();
-                        zustand = 7;
-                    }
-                    break;
-                case 7:
-                    if (System.currentTimeMillis() >= time + WAITING_TIME_SECONDS * 1000) {
-                        mehrspindelmaschine.setMotorstatusWerkzeugAntriebM(EMotorstatus.AUS);
-                        mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AUF);
-                        zustand = 8;
-                    }
-                    break;
-                case 8:
+//                    System.out.println(4);
+                    mehrspindelmaschine.setMotorstatusWerkzeugAntriebM(EMotorstatus.AUS);
                     if (mehrspindelmaschine.getPositionHubM() == ESensorZAchse.OBEN) {
                         mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AUS);
                         if (times >= 2) {
+                            mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AUS);
+                            mehrspindelmaschine.setFlagWillWerkstueckAbgebenM(true);
                             if (mehrspindelmaschine.istFraesmaschineBelegtM() == ESensorstatus.KEIN_SIGNAL) {
-                                mehrspindelmaschine.setFlagWillWerkstueckAbgebenM(true);
                                 mehrspindelmaschine.setMotorstatusBandM(EMotorstatus.AN);
                                 times = 0;
-                                zustand = 4;
+                                zustand = 0;
+                                ready = false;
                             }
                         } else {
-                            mehrspindelmaschine.setMotorstatusRevolverdrehungM(EMotorstatus.AN);
                             times++;
-                            zustand = 9;
+                            zustand = 5;
                         }
                     }
                     break;
-                case 9:
-                    if (mehrspindelmaschine.istRevolverAufPositionM() == ESensorstatus.SIGNAL) {
+                case 5:
+//                    System.out.println(5);
+                    mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AUS);
+                    mehrspindelmaschine.setMotorstatusRevolverdrehungM(EMotorstatus.AN);
+                    if (mehrspindelmaschine.istRevolverAufPositionM() == ESensorstatus.KEIN_SIGNAL) spinning = true;
+                    if (mehrspindelmaschine.istRevolverAufPositionM() == ESensorstatus.SIGNAL && spinning) {
                         mehrspindelmaschine.setMotorstatusRevolverdrehungM(EMotorstatus.AUS);
-                        mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AB);
-                        zustand = 6;
+                        spinning = false;
+                        zustand = 2;
                     }
                     break;
             }
         }
+    }
+
+    public void reset() {
+        if (mehrspindelmaschine.getPositionHubM() != ESensorZAchse.OBEN) mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AUF);
+        else mehrspindelmaschine.setMotorstatusHubM(EMotorbewegungZAchse.AUS);
+
+        if (mehrspindelmaschine.istRevolverAufPositionM() == ESensorstatus.KEIN_SIGNAL) mehrspindelmaschine.setMotorstatusRevolverdrehungM(EMotorstatus.AN);
+        else mehrspindelmaschine.setMotorstatusRevolverdrehungM(EMotorstatus.AUS);
+
+        zustand = 0;
     }
 
     public void terminate() {

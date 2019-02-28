@@ -19,6 +19,11 @@ public class SteuereinheitSchieber extends Thread {
 
         int zustand = 0;
         while (!terminate) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             // Euer Code hier
             switch (zustand) {
                 case 0:

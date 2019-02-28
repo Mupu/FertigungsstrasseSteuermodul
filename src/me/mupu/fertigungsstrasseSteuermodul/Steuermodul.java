@@ -9,24 +9,32 @@ public class Steuermodul {
     private SteuereinheitBohrmaschine           bohrmaschine;
     private SteuereinheitMehrspindelmaschine    mehrspindelmaschine;
     private SteuereinheitFraesmaschine          fraesmaschine;
-
+    //todo bug bei dem der kran nicht richtig funktioniert wenn er kalibriert hat
 
     public Steuermodul() {
+    }
+
+    private boolean kranKali = false; // default aus bis bug gefixt
+
+    public void setKranKali(boolean b) {
+        kranKali = b;
     }
 
     public void start() {
         FertigungsstrasseHLD.open();
         kran                = new SteuereinheitKran(FertigungsstrasseHLD.getKran());
+        kran.enableKali(kranKali);
+
         schieber            = new SteuereinheitSchieber(FertigungsstrasseHLD.getSchieber());
         bohrmaschine        = new SteuereinheitBohrmaschine(FertigungsstrasseHLD.getBohrmaschine());
         mehrspindelmaschine = new SteuereinheitMehrspindelmaschine(FertigungsstrasseHLD.getMehrspindelmaschine());
         fraesmaschine       = new SteuereinheitFraesmaschine(FertigungsstrasseHLD.getFraesmaschine());
 
-//        kran.start();
-//        schieber.start();
-//        bohrmaschine.start();
-//        mehrspindelmaschine.start();
-//        fraesmaschine.start();
+        kran.start();
+        schieber.start();
+        bohrmaschine.start();
+        mehrspindelmaschine.start();
+        fraesmaschine.start();
     }
 
     public void stop() {

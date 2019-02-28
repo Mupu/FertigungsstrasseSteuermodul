@@ -1,4 +1,4 @@
-package me.mupu;
+package me.mupu.fertigungsstrasseSteuermodul.UI;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import me.mupu.FertigungsstrasseHLD;
 import me.mupu.enums.motorbewegungen.EMotorbewegungXAchse;
 import me.mupu.enums.motorbewegungen.EMotorbewegungYAchse;
 import me.mupu.enums.motorbewegungen.EMotorbewegungZAchse;
@@ -239,6 +240,10 @@ public class GUIController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
+    private void initializeStraße(){
         FertigungsstrasseHLD.open();
 
         IKran k = FertigungsstrasseHLD.getKran();
@@ -357,89 +362,89 @@ public class GUIController implements Initializable {
 
 
 //        // impulse X
-        new Thread(() -> {
-            ESensorstatus x = k.initiatorXAchseK();
-            while (true) {
-                while (k.initiatorXAchseK() == x) {try {Thread.sleep(10);} catch (Exception e) {}}
-                Platform.runLater(() -> {
-                    int i = Integer.valueOf(ImpulsX.getText());
-                    ImpulsX.setText(String.valueOf(i + 1));
-                    ProzentX.setText(String.valueOf((float) i / (float) Integer.valueOf(ImpulsTestResultX.getText())) + "%");
-                });
-                while (k.initiatorXAchseK() != x) {try {Thread.sleep(10);} catch (Exception e) {}}
-                Platform.runLater(() -> {
-                    int i = Integer.valueOf(ImpulsX.getText());
-                    ImpulsX.setText(String.valueOf(i + 1));
-                    ProzentX.setText(String.valueOf((float) i / (float) Integer.valueOf(ImpulsTestResultX.getText())) + "%");
-                });
-            }
-        }).start();
-
-        // impulse y
-        new Thread(() -> {
-            ESensorstatus y = k.initiatorYAchseK();
-            while (true) {
-                while (k.initiatorYAchseK() == y) {try {Thread.sleep(10);} catch (Exception e) {}}
-                Platform.runLater(() -> {
-                    int i = Integer.valueOf(ImpulsY.getText());
-                    ImpulsY.setText(String.valueOf(i + 1));
-                    ProzentY.setText(String.valueOf((float) i / (float) Integer.valueOf(ImpulsTestResultY.getText())) + "%");
-                });
-                while (k.initiatorYAchseK() != y) {try {Thread.sleep(10);} catch (Exception e) {}}
-                Platform.runLater(() -> {
-                    int i = Integer.valueOf(ImpulsY.getText());
-                    ImpulsY.setText(String.valueOf(i + 1));
-                    ProzentY.setText(String.valueOf((float) i / (float) Integer.valueOf(ImpulsTestResultY.getText())) + "%");
-                });
-            }
-        }).start();
-
-        // impulse z
-        new Thread(() -> {
-            ESensorstatus z = k.initiatorZAchseK();
-            while (true) {
-                while (k.initiatorZAchseK() == z) {try {Thread.sleep(10);} catch (Exception e) {}}
-                Platform.runLater(() -> {
-                    int i = Integer.valueOf(ImpulsZ.getText());
-                    ImpulsZ.setText(String.valueOf(i + 1));
-                    ProzentZ.setText(String.valueOf((float) i / (float) Integer.valueOf(ImpulsTestResultZ.getText())) + "%");
-                });
-                while (k.initiatorZAchseK() != z) {try {Thread.sleep(10);} catch (Exception e) {}}
-                Platform.runLater(() -> {
-                    int i = Integer.valueOf(ImpulsZ.getText());
-                    ImpulsZ.setText(String.valueOf(i + 1));
-                    ProzentZ.setText(String.valueOf((float) i / (float) Integer.valueOf(ImpulsTestResultZ.getText())) + "%");
-                });
-            }
-        }).start();
+//        new Thread(() -> {
+//            ESensorstatus x = k.initiatorXAchseK();
+//            while (true) {
+//                while (k.initiatorXAchseK() == x);
+//                Platform.runLater(() -> {
+//                    int i = Integer.valueOf(ImpulsX.getText());
+//                    ImpulsX.setText(String.valueOf(i + 1));
+//                    ProzentX.setText(String.valueOf(i / Integer.valueOf(ImpulsTestResultX.getText())));
+//                });
+//                while (k.initiatorXAchseK() != x);
+//                Platform.runLater(() -> {
+//                    int i = Integer.valueOf(ImpulsZ.getText());
+//                    ImpulsZ.setText(String.valueOf(i + 1));
+//                    ProzentZ.setText(String.valueOf(i / Integer.valueOf(ImpulsTestResultZ.getText())));
+//                });
+//            }
+//        }).start();
+//
+//        // impulse y
+//        new Thread(() -> {
+//            ESensorstatus y = k.initiatorYAchseK();
+//            while (true) {
+//                while (k.initiatorYAchseK() == y);
+//                Platform.runLater(() -> {
+//                    int i = Integer.valueOf(ImpulsY.getText());
+//                    ImpulsY.setText(String.valueOf(i + 1));
+//                    ProzentY.setText(String.valueOf(i / Integer.valueOf(ImpulsTestResultY.getText())));
+//                });
+//                while (k.initiatorYAchseK() != y);
+//                Platform.runLater(() -> {
+//                    int i = Integer.valueOf(ImpulsZ.getText());
+//                    ImpulsZ.setText(String.valueOf(i + 1));
+//                    ProzentZ.setText(String.valueOf(i / Integer.valueOf(ImpulsTestResultZ.getText())));
+//                });
+//            }
+//        }).start();
+//
+//        // impulse z
+//        new Thread(() -> {
+//            ESensorstatus z = k.initiatorZAchseK();
+//            while (true) {
+//                while (k.initiatorZAchseK() == z);
+//                Platform.runLater(() -> {
+//                    int i = Integer.valueOf(ImpulsZ.getText());
+//                    ImpulsZ.setText(String.valueOf(i + 1));
+//                    ProzentZ.setText(String.valueOf(i / Integer.valueOf(ImpulsTestResultZ.getText())));
+//                });
+//                while (k.initiatorZAchseK() != z);
+//                Platform.runLater(() -> {
+//                    int i = Integer.valueOf(ImpulsZ.getText());
+//                    ImpulsZ.setText(String.valueOf(i + 1));
+//                    ProzentZ.setText(String.valueOf(i / Integer.valueOf(ImpulsTestResultZ.getText())));
+//                });
+//            }
+//        }).start();
 
         // soll werkstueacke annehmen und abgeben
         new Thread(() -> {
-            while (true) {
-                s.setFlagWillWerkstueckAbgebenS(SWWA.selectedProperty().get());
+            s.setFlagWillWerkstueckAbgebenS(SWWA.selectedProperty().get());
 
-                boolean b1 = b.sollWerkstueckAnnehmenB() == ESensorstatus.SIGNAL;
-                Platform.runLater(() -> BSWA.selectedProperty().setValue(b1));
-
-
-                b.setFlagWillWerkstueckAbgebenB(BWWA.selectedProperty().get());
-
-                boolean b2 = m.sollWerkstueckAnnehmenM() == ESensorstatus.SIGNAL;
-                Platform.runLater(() -> MSWA.selectedProperty().setValue(b2));
+            boolean b1 = b.sollWerkstueckAnnehmenB() == ESensorstatus.SIGNAL;
+            Platform.runLater(() -> BSWA.selectedProperty().setValue(b1));
 
 
-                m.setFlagWillWerkstueckAbgebenM(MWWA.selectedProperty().get());
 
-                boolean b3 = f.sollWerkstueckAnnehmenF() == ESensorstatus.SIGNAL;
-                Platform.runLater(() -> FSWA.selectedProperty().setValue(b3));
+            b.setFlagWillWerkstueckAbgebenB(BWWA.selectedProperty().get());
 
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    FertigungsstrasseHLD.close();
-                    System.exit(1);
-                }
+            boolean b2 = m.sollWerkstueckAnnehmenM() == ESensorstatus.SIGNAL;
+            Platform.runLater(() -> MSWA.selectedProperty().setValue(b2));
+
+
+
+            m.setFlagWillWerkstueckAbgebenM(MWWA.selectedProperty().get());
+
+            boolean b3 = f.sollWerkstueckAnnehmenF() == ESensorstatus.SIGNAL;
+            Platform.runLater(() -> FSWA.selectedProperty().setValue(b3));
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                FertigungsstrasseHLD.close();
+                System.exit(1);
             }
         }).start();
 

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="436.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.mupu.fertigungsstrasseSteuermodul.UI.HauptController">
+   <children>
+      <ImageView fx:id="startButton" fitHeight="54.0" fitWidth="54.0" layoutX="28.0" layoutY="39.0" onMouseClicked="#startStop" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/startButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I1" fitHeight="20.0" fitWidth="51.0" layoutX="14.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I2" fitHeight="20.0" fitWidth="51.0" layoutX="42.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I3" fitHeight="20.0" fitWidth="51.0" layoutX="69.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I4" fitHeight="20.0" fitWidth="51.0" layoutX="97.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I5" fitHeight="20.0" fitWidth="51.0" layoutX="127.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I6" fitHeight="20.0" fitWidth="51.0" layoutX="156.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I7" fitHeight="20.0" fitWidth="51.0" layoutX="186.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I8" fitHeight="20.0" fitWidth="51.0" layoutX="214.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I9" fitHeight="20.0" fitWidth="51.0" layoutX="241.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I10" fitHeight="20.0" fitWidth="51.0" layoutX="269.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I11" fitHeight="20.0" fitWidth="51.0" layoutX="299.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I12" fitHeight="20.0" fitWidth="51.0" layoutX="328.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I13" fitHeight="20.0" fitWidth="51.0" layoutX="360.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I29" fitHeight="20.0" fitWidth="51.0" layoutX="329.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I30" fitHeight="20.0" fitWidth="51.0" layoutX="360.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I14" fitHeight="20.0" fitWidth="51.0" layoutX="14.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I17" fitHeight="20.0" fitWidth="51.0" layoutX="43.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I18" fitHeight="20.0" fitWidth="51.0" layoutX="70.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I19" fitHeight="20.0" fitWidth="51.0" layoutX="98.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I20" fitHeight="20.0" fitWidth="51.0" layoutX="128.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I21" fitHeight="20.0" fitWidth="51.0" layoutX="157.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I22" fitHeight="20.0" fitWidth="51.0" layoutX="187.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I25" fitHeight="20.0" fitWidth="51.0" layoutX="215.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I26" fitHeight="20.0" fitWidth="51.0" layoutX="242.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I27" fitHeight="20.0" fitWidth="51.0" layoutX="270.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="I28" fitHeight="20.0" fitWidth="51.0" layoutX="300.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="16.0" layoutY="347.0" text="I-1" />
+      <Label layoutX="45.0" layoutY="347.0" text="I-2" />
+      <Label layoutX="69.0" layoutY="347.0" text="I-3" />
+      <Label layoutX="98.0" layoutY="347.0" text="I-4" />
+      <Label layoutX="127.0" layoutY="347.0" text="I-5" />
+      <Label layoutX="156.0" layoutY="347.0" text="I-6" />
+      <Label layoutX="184.0" layoutY="347.0" text="I-7" />
+      <Label layoutX="213.0" layoutY="347.0" text="I-8" />
+      <Label layoutX="241.0" layoutY="347.0" text="I-9" />
+      <Label layoutX="270.0" layoutY="347.0" text="I-10" />
+      <Label layoutX="299.0" layoutY="347.0" text="I-11" />
+      <Label layoutX="328.0" layoutY="347.0" text="I-12" />
+      <Label layoutX="360.0" layoutY="347.0" text="I-13" />
+      <Label layoutX="14.0" layoutY="386.0" text="I-14" />
+      <Label layoutX="44.0" layoutY="386.0" text="I-17" />
+      <Label layoutX="73.0" layoutY="386.0" text="I-18" />
+      <Label layoutX="102.0" layoutY="386.0" text="I-19" />
+      <Label layoutX="126.0" layoutY="386.0" text="I-20" />
+      <Label layoutX="155.0" layoutY="386.0" text="I-21" />
+      <Label layoutX="184.0" layoutY="386.0" text="I-22" />
+      <Label layoutX="213.0" layoutY="386.0" text="I-25" />
+      <Label layoutX="241.0" layoutY="386.0" text="I-26" />
+      <Label layoutX="270.0" layoutY="386.0" text="I-27" />
+      <Label layoutX="298.0" layoutY="386.0" text="I-28" />
+      <Label layoutX="327.0" layoutY="386.0" text="I-29" />
+      <Label layoutX="356.0" layoutY="386.0" text="I-30" />
+      <ImageView fx:id="startLampe" fitHeight="20.0" fitWidth="51.0" layoutX="14.0" layoutY="311.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/lampeAus.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="9.0" layoutY="283.0" text="MAIN" />
+      <ImageView fitHeight="234.0" fitWidth="423.0" layoutX="159.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@ressourcen/Kran_Ding.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="WerkStückStart" fitHeight="32.0" fitWidth="47.0" layoutX="184.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@ressourcen/werkstück.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="WerkStückEins" fitHeight="32.0" fitWidth="47.0" layoutX="263.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@ressourcen/werkstück.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="WerkStückZwei" fitHeight="32.0" fitWidth="47.0" layoutX="343.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@ressourcen/werkstück.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="WerkStückDrei" fitHeight="32.0" fitWidth="47.0" layoutX="414.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@ressourcen/werkstück.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="WerkStückEnde" fitHeight="32.0" fitWidth="47.0" layoutX="525.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@ressourcen/werkstück.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="KalibrierenButton" disable="true" fitHeight="39.0" fitWidth="39.0" layoutX="26.0" layoutY="100.0" onMouseClicked="#kalibrieren" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@ressourcen/KalibrierenButton.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
